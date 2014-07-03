@@ -19,3 +19,5 @@ set(CLIB_SRC_LIST ${INC_LIST} ${SRC_LIST})
 source_group(src FILES ${CLIB_SRC_LIST})
 
 add_library(${PROJECT_NAME} STATIC ${CLIB_SRC_LIST})
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/tests)
