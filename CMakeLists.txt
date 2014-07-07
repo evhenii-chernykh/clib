@@ -12,9 +12,11 @@ set(EXPORT_HEADERS_DIRECTORY ${CMAKE_BINARY_DIR}/include)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/src")
 
-set(INC_LIST "${PROJECT_SOURCE_DIR}/include/list_stack.h")
+set(INC_LIST "${PROJECT_SOURCE_DIR}/include/list_stack.h"
+             "${PROJECT_SOURCE_DIR}/include/atom.h")
 
-set(SRC_LIST "${PROJECT_SOURCE_DIR}/src/list_stack.c")
+set(SRC_LIST "${PROJECT_SOURCE_DIR}/src/list_stack.c"
+             "${PROJECT_SOURCE_DIR}/src/atom.c")
 
 set(CLIB_SRC_LIST ${INC_LIST} ${SRC_LIST})
 
