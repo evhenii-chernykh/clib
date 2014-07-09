@@ -7,8 +7,14 @@
 
 #include <stddef.h>
 
-extern const char *atom_string(const char *str);
+extern const char *atom_add(const char *str);
 
-extern size_t atom_length(const char *str);
+extern void atom_remove(const char *str);
+
+extern int atom_count();
+
+extern int atom_exist(const char *str);
+
+extern void atom_free();
 
 #endif /* ATOM_H_INCLUDED__ */
