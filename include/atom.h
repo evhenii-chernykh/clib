@@ -11,10 +11,10 @@ extern const char *atom_add(const char *str);
 
 extern void atom_remove(const char *str);
 
-extern int atom_count();
+extern int atom_count(void);
 
 extern int atom_exist(const char *str);
 
-extern void atom_free();
+extern void atom_free(void);
 
 #endif /* ATOM_H_INCLUDED__ */

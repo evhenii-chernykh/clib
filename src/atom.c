@@ -21,7 +21,9 @@ static unsigned long dgb2_hash(const unsigned char *str)
     int c;
 
     while (c = *str++)
+    {
         hash = ((hash << 5) + hash) + c;
+    }
 
     return hash;
 }
@@ -115,12 +117,12 @@ void atom_remove(const char *str)
     }
 }
 
-int atom_count()
+int atom_count(void)
 {
     return atom_cnt;
 }
 
-void atom_free()
+void atom_free(void)
 {
     struct atom *p, *t;
     size_t i;
