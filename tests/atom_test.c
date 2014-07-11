@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(command, COMMAND_COUNT) == 0)
         {
-            printf("Total number of atoms = %d.\n", atom_count(atom_value));
+            printf("Total number of atoms = %d.\n", atom_count());
         }
         else if (strcmp(command, COMMAND_FREE) == 0)
         {
