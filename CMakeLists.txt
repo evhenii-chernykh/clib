@@ -14,11 +14,11 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 
 set(INC_LIST "${PROJECT_SOURCE_DIR}/include/list_stack.h"
              "${PROJECT_SOURCE_DIR}/include/atom.h"
-             "${PROJECT_SOURCE_DIR}/include/arena.h")
+             "${PROJECT_SOURCE_DIR}/include/linear_allocator.h")
 
 set(SRC_LIST "${PROJECT_SOURCE_DIR}/src/list_stack.c"
              "${PROJECT_SOURCE_DIR}/src/atom.c"
-             "${PROJECT_SOURCE_DIR}/src/arena.c")
+             "${PROJECT_SOURCE_DIR}/src/linear_allocator.c")
 
 set(CLIB_SRC_LIST ${INC_LIST} ${SRC_LIST})
 
