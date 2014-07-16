@@ -71,6 +71,7 @@ void linear_allocator_free(linear_allocator_t *allocator)
 void *linear_allocator_alloc(linear_allocator_t allocator, size_t size)
 {
     size_t quot, rem, aligned_size;
+    union align *old_position;
 
     assert(allocator);
 
@@ -83,7 +84,8 @@ void *linear_allocator_alloc(linear_allocator_t allocator, size_t size)
         return NULL;
     }
 
+    old_position = allocator->current;
     allocator->current += aligned_size;
 
-    return allocator->current - aligned_size;
+    return old_position;
 }
