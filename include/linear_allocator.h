@@ -12,4 +12,8 @@ extern void linear_allocator_free(linear_allocator_t *allocator);
 
 extern void *linear_allocator_alloc(linear_allocator_t allocator, size_t size);
 
+extern size_t linear_allocator_size(linear_allocator_t allocator);
+
+extern size_t linear_allocator_avail(linear_allocator_t allocator);
+
 #endif /* ARENA_INCLUDED_H__ */

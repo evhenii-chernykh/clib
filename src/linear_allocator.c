@@ -89,3 +89,17 @@ void *linear_allocator_alloc(linear_allocator_t allocator, size_t size)
 
     return old_position;
 }
+
+size_t linear_allocator_size(linear_allocator_t allocator)
+{
+    assert(allocator);
+
+    return allocator->heap_size;
+}
+
+size_t linear_allocator_avail(linear_allocator_t allocator)
+{
+    assert(allocator);
+
+    return allocator->end - allocator->current;
+}
