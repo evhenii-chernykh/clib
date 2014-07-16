@@ -10,3 +10,6 @@ add_executable(atom_test ${ATOM_SRC} ${CLIB_SRC_LIST})
 
 set(LINEAR_ALLOCATOR_SRC "${PROJECT_SOURCE_DIR}/linear_allocator_test.c")
 add_executable(linear_allocator_test ${LINEAR_ALLOCATOR_SRC} ${CLIB_SRC_LIST})
+
+set(LIST_SRC "${PROJECT_SOURCE_DIR}/list_test.c")
+add_executable(list_test ${LIST_SRC} ${CLIB_SRC_LIST})
