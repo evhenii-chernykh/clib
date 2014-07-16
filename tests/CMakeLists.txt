@@ -7,3 +7,6 @@ add_executable(list_stack_test ${LIST_STACK_SRC} ${CLIB_SRC_LIST})
 
 set(ATOM_SRC "${PROJECT_SOURCE_DIR}/atom_test.c")
 add_executable(atom_test ${ATOM_SRC} ${CLIB_SRC_LIST})
+
+set(LINEAR_ALLOCATOR_SRC "${PROJECT_SOURCE_DIR}/linear_allocator_test.c")
+add_executable(linear_allocator_test ${LINEAR_ALLOCATOR_SRC} ${CLIB_SRC_LIST})
