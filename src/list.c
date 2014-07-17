@@ -60,3 +60,68 @@ void list_free(list_t *list)
 
     list = NULL;
 }
+
+list_t list_copy(list_t list)
+{
+    list_t result, last;
+
+    if (!list)
+    {
+        return NULL;
+    }
+    
+    result = malloc(sizeof(struct list_type));
+
+    if (!result)
+    {
+        return NULL;
+    }
+
+    result->head = list->head;
+    result->tail = NULL;
+    last = result;
+    list = list->tail;
+
+    for (; list; list = list->tail)
+    {
+        last->tail = malloc(sizeof(struct list_type));
+        if (!last->tail)
+        {
+            list_free(&result);
+            return NULL;
+        }
+        last = last->tail;
+        last->head = list->head;
+        last->tail = NULL;
+    }
+    
+    return result;
+}
+
+size_t list_length(list_t list)
+{
+    size_t result = 0;
+
+    for(; list; list = list->tail)
+    {
+        result++;
+    }
+
+    return result;
+}
+
+list_t list_append(list_t list, list_t tail)
+{
+    list_t result = list;
+
+    if (!list)
+    {
+        return tail;
+    }
+
+    for (; list->tail; list = list->tail);
+
+    list->tail = tail;
+
+    return result;
+}
