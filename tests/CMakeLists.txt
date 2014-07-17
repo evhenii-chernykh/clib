@@ -13,3 +13,6 @@ add_executable(linear_allocator_test ${LINEAR_ALLOCATOR_SRC} ${CLIB_SRC_LIST})
 
 set(LIST_SRC "${PROJECT_SOURCE_DIR}/list_test.c")
 add_executable(list_test ${LIST_SRC} ${CLIB_SRC_LIST})
+
+set(TABLE_SRC "${PROJECT_SOURCE_DIR}/table_test.c")
+add_executable(table_test ${TABLE_SRC} ${CLIB_SRC_LIST})
