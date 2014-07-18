@@ -8,7 +8,7 @@ typedef struct list_type *list_t;
 
 struct list_type
 {
-    void *head;
+    const void *head;
     list_t tail;
 };
 
