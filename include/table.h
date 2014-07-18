@@ -2,13 +2,14 @@
 #define TABLE_H_INCLUDED__
 
 #include <stddef.h>
+#include <stdint.h>
 
 struct table_type;
 typedef struct table_type *table_t;
 
 typedef int (*table_key_cmp_function_t)(const void *key1, const void *key2);
 
-typedef size_t (*table_key_hash_function_t)(const void *key);
+typedef uint32_t (*table_key_hash_function_t)(const void *key);
 
 extern table_t table_new(table_key_cmp_function_t key_cmp_function, table_key_hash_function_t key_hash_function);
 

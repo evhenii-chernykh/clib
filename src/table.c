@@ -3,6 +3,23 @@
 #include <assert.h>
 #include <stdlib.h>
 
+struct pair
+{
+    const void *key;
+    const void *value;
+    struct pair *next;
+};
+
+struct table_type
+{
+    size_t entryes_count;
+    size_t buckets_count;
+    size_t max_load;
+    table_key_cmp_function_t cmp;
+    table_key_hash_function_t hash;
+    struct pair **buckets;
+};
+
 table_t table_new(table_key_cmp_function_t key_cmp_function, table_key_hash_function_t key_hash_function)
 {
     return NULL;
