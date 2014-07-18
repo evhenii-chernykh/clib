@@ -1,4 +1,5 @@
 #include "atom.h"
+#include "utils.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -15,19 +16,6 @@ static struct atom
 
 static int atom_cnt = 0;
 
-static unsigned long dgb2_hash(const unsigned char *str)
-{
-    unsigned long hash = 5381;
-    int c;
-
-    while (c = *str++)
-    {
-        hash = ((hash << 5) + hash) + c;
-    }
-
-    return hash;
-}
-
 int atom_exist(const char *str)
 {
     unsigned long hash;
@@ -35,7 +23,7 @@ int atom_exist(const char *str)
 
     assert(str);
 
-    hash = dgb2_hash(str) % BUCKET_NUM;
+    hash = dgb2_hash_str(str) % BUCKET_NUM;
 
     for (p = buckets[hash]; p; p = p->link)
     {
@@ -55,7 +43,7 @@ const char *atom_add(const char *str)
 
     assert(str);
 
-    hash = dgb2_hash(str) % BUCKET_NUM;
+    hash = dgb2_hash_str(str) % BUCKET_NUM;
 
     for (p = buckets[hash]; p; p = p->link)
     {
@@ -96,7 +84,7 @@ void atom_remove(const char *str)
 
     assert(str);
 
-    hash = dgb2_hash(str) % BUCKET_NUM;
+    hash = dgb2_hash_str(str) % BUCKET_NUM;
     p = buckets[hash];
     buckets[hash] = NULL;
 
