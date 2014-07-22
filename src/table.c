@@ -9,7 +9,7 @@
 struct pair
 {
     const void *key;
-    const void *value;
+    void *value;
     struct pair *next;
 };
 
@@ -22,7 +22,7 @@ struct table_type
     struct pair **buckets;
 };
 
-static void table_enlarge(table_t table)
+static int table_enlarge(table_t table)
 {
     struct pair **new_buckets, **old_buckets, *p, *v;
     size_t new_buckets_cnt, old_buckets_cnt, i;
@@ -34,7 +34,7 @@ static void table_enlarge(table_t table)
 
     if (!new_buckets)
     {
-        return;
+        return 0;
     }
 
     for (i = 0; i < new_buckets_cnt; i++)
@@ -63,10 +63,10 @@ static void table_enlarge(table_t table)
 
                 free(new_buckets);
 
-                return;
+                return 0;
             }
 
-            hash = table->hash(p->key);
+            hash = table->hash(p->key) % table->buckets_count;
             v->key = p->key;
             v->value = p->value;
             v->next = new_buckets[hash];
@@ -87,6 +87,8 @@ static void table_enlarge(table_t table)
     }
 
     free(old_buckets);
+
+    return 1;
 }
 
 table_t table_new(table_key_cmp_function_t key_cmp_function, table_key_hash_function_t key_hash_function)
@@ -126,7 +128,7 @@ table_t table_new(table_key_cmp_function_t key_cmp_function, table_key_hash_func
 
 void table_free(table_t *table)
 {
-    struct pair **buckets, *p, *v;
+    struct pair **buckets, *p, *current;
     size_t i, buckets_cnt;
 
     assert(table && *table);
@@ -136,10 +138,12 @@ void table_free(table_t *table)
 
     for (i = 0; i < buckets_cnt; i++)
     {
-        for (p = buckets[i]; p; p = v)
+        p = buckets[i];
+        while (p)
         {
-            v = p->next;
-            free(p);
+            current = p;
+            p = p->next;
+            free(current);
         }
     }
 
@@ -155,39 +159,128 @@ size_t table_size(table_t table)
     return table->entryes_count;
 }
 
-void *table_add(table_t table, const void *key, const void *value)
+int table_add(table_t table, const void *key, void *value, void **old_value)
 {
-    struct pair *p;
+    struct pair *p, *v, *current;
+    uint32_t hash;
 
     assert(table && key);
+    
+    if (table->entryes_count > MAX_LOAD * table->buckets_count)
+    {
+        if (!table_enlarge(table))
+        {
+            return TABLE_BAD_ALLOC;
+        }
+    }
 
     p = malloc(sizeof(struct pair));
 
     if(!p)
     {
-        return NULL;
+        return TABLE_BAD_ALLOC;
     }
 
-    return NULL;
+    p->key = key;
+    p->value = value;
+    hash = table->hash(key) % table->buckets_count;
+    v = table->buckets[hash];
+    table->buckets[hash] = NULL;
+
+    while (v)
+    {
+        current = v;
+        v = v->next;
+        if (table->cmp(key, current->key))
+        {
+            *old_value = current->value;
+            free(current);
+        }
+        else
+        {
+            v->next = table->buckets[hash];
+            table->buckets[hash] = v;
+        }
+    }
+
+    p->next = table->buckets[hash];
+    table->buckets[hash] = p;
+    table->entryes_count++;
+
+    return TABLE_SUCCESS;
 }
 
-void *table_get(table_t table, const void *key)
+int table_get(table_t table, const void *key, void **value)
 {
+    struct pair *p;
+    uint32_t hash;
+
     assert(table);
 
-    return NULL;
+    hash = table->hash(key) % table->buckets_count;
+
+    for (p = table->buckets[hash]; p; p = p->next)
+    {
+        if (table->cmp(key, p->key))
+        {
+            *value = p->value;
+            return TABLE_SUCCESS;
+        }
+    }
+
+    return TABLE_KEY_NOT_EXIST;
 }
 
-void *table_remove(table_t table, const void *key)
+int table_remove(table_t table, const void *key, void **value)
 {
+    struct pair *p, *curent;
+    uint32_t hash;
+    int return_value = TABLE_KEY_NOT_EXIST;
+
     assert(table);
 
-    return NULL;
+    hash = table->hash(key) % table->buckets_count;
+    p = table->buckets[hash];
+    table->buckets[hash] = NULL;
+    
+
+    while (p)
+    {
+        curent = p;
+        p = p->next;
+        if (table->cmp(key, curent->key))
+        {
+            *value = curent->value;
+            free(curent);
+            return_value = TABLE_SUCCESS;
+            table->entryes_count--;
+        }
+        else
+        {
+            curent->next = table->buckets[hash];
+            table->buckets[hash] = curent;
+        }
+    }
+
+    return return_value;
 }
 
 int table_key_exists(table_t table, const void *key)
 {
-    assert(table);
+    struct pair *p;
+    uint32_t hash;
+
+    assert(table && key);
+
+    hash = table->hash(key) % table->buckets_count;
+
+    for (p = table->buckets[hash]; p; p = p->next)
+    {
+        if (table->cmp(key, p->key))
+        {
+            return 1;
+        }
+    }
 
     return 0;
 }
