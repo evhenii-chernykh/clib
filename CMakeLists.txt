@@ -17,14 +17,16 @@ set(INC_LIST "${PROJECT_SOURCE_DIR}/include/list_stack.h"
              "${PROJECT_SOURCE_DIR}/include/linear_allocator.h"
              "${PROJECT_SOURCE_DIR}/include/list.h"
              "${PROJECT_SOURCE_DIR}/include/table.h"
-             "${PROJECT_SOURCE_DIR}/include/utils.h")
+             "${PROJECT_SOURCE_DIR}/include/utils.h"
+             "${PROJECT_SOURCE_DIR}/include/hash_set.h")
 
 set(SRC_LIST "${PROJECT_SOURCE_DIR}/src/list_stack.c"
              "${PROJECT_SOURCE_DIR}/src/atom.c"
              "${PROJECT_SOURCE_DIR}/src/linear_allocator.c"
              "${PROJECT_SOURCE_DIR}/src/list.c"
              "${PROJECT_SOURCE_DIR}/src/table.c"
-             "${PROJECT_SOURCE_DIR}/src/utils.c")
+             "${PROJECT_SOURCE_DIR}/src/utils.c"
+             "${PROJECT_SOURCE_DIR}/src/hash_set.c")
 
 set(CLIB_SRC_LIST ${INC_LIST} ${SRC_LIST})
 

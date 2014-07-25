@@ -16,3 +16,6 @@ add_executable(list_test ${LIST_SRC} ${CLIB_SRC_LIST})
 
 set(TABLE_SRC "${PROJECT_SOURCE_DIR}/table_test.c")
 add_executable(table_test ${TABLE_SRC} ${CLIB_SRC_LIST})
+
+set(HASH_SET_SRC "${PROJECT_SOURCE_DIR}/hash_set_test.c")
+add_executable(hash_set_test ${HASH_SET_SRC} ${CLIB_SRC_LIST})
